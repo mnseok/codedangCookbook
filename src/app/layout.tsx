@@ -1,4 +1,3 @@
-import { SidebarProvider } from '@/components/ui/sidebar'
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
 import { Geist, Geist_Mono } from 'next/font/google'
@@ -24,21 +23,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          <ThemeProvider attribute="class" defaultTheme="light">
-            <div className="flex min-h-screen flex-col">
-              <main className="flex-grow">{children}</main>{' '}
-              {/* ✅ flex-grow 추가 */}
-              <footer className="text-muted mt-4 border-t py-2 text-center text-sm">
-                © 2025 SKKUDING.
-              </footer>
-            </div>
-          </ThemeProvider>
-        </SidebarProvider>
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <div className="">
+            <main className="flex-grow">{children}</main>{' '}
+            {/* ✅ flex-grow 추가 */}
+            <footer className="text-muted mt-4 border-t py-2 text-center text-sm">
+              © 2025 SKKUDING.
+            </footer>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )

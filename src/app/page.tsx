@@ -22,7 +22,7 @@ export default function Home() {
       >
         {/* Left Side: Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/logo.png" alt="Logo" width={48} height={48} />
+          <Image src="/images/logo.png" alt="Logo" width={36} height={36} />
         </Link>
 
         {/* Center: GitHub Icon + Navigation Menu */}

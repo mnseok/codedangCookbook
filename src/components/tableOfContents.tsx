@@ -14,9 +14,15 @@ export default function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const pathname = usePathname() // ✅ 현재 URL 감지
+  const [headerHeight, setHeaderHeight] = useState(0)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
+
+    const header = document.querySelector('header')
+    if (header) {
+      setHeaderHeight(header.clientHeight)
+    }
 
     const getHeadings = () => {
       const elements = Array.from(document.querySelectorAll('h2, h3')).map(
@@ -57,31 +63,36 @@ export default function TableOfContents() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [headings])
 
-  // 📌 ✅ headings가 없으면 아무것도 렌더링하지 않음
   if (headings.length === 0) return null
 
   return (
-    <aside className="fixed top-20 right-10 hidden w-60 lg:block">
-      <h3 className="mb-3 text-lg font-semibold">ON THIS PAGE 📌</h3>
-      <ul className="space-y-2 text-sm">
-        {headings.map((heading) => (
-          <li
-            key={heading.id}
-            className={`ml-${heading.level === 3 ? '6' : '0'}`}
-          >
-            <Link
-              href={`#${heading.id}`}
-              className={`hover:text-primary block transition ${
-                activeId === heading.id
-                  ? 'text-primary font-bold'
-                  : 'text-foreground'
-              }`}
+    <aside
+      className="sticky h-fit w-60 max-w-[20rem] min-w-[15rem] pt-5 hidden lg:flex"
+      style={{ top: `${headerHeight === 0 ? 0 : headerHeight + 20}px` }}
+    >
+      {' '}
+      <div className="w-full p-4">
+        <div className="mb-3 text-lg font-semibold">ON THIS PAGE 📌</div>
+        <ul className="space-y-2 text-sm">
+          {headings.map((heading) => (
+            <li
+              key={heading.id}
+              className={`ml-${heading.level === 3 ? '6' : '0'}`}
             >
-              {heading.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              <Link
+                href={`#${heading.id}`}
+                className={`hover:text-primary block transition ${
+                  activeId === heading.id
+                    ? 'text-primary font-bold'
+                    : 'text-foreground'
+                }`}
+              >
+                {heading.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </aside>
   )
 }

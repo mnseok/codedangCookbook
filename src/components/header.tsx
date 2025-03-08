@@ -47,26 +47,17 @@ export default function Header() {
   }, [search])
 
   return (
-    <header
-      className="bg-background text-foreground sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8"
-      style={{ width: `calc(100vw - var(--sidebar-width, 0px))` }}
-    >
+    <header className="bg-background text-foreground sticky top-0 flex w-full items-center justify-between gap-12 px-4 py-3 md:px-8">
       {/* Left: Logo & Sidebar Button */}
       <div className="flex items-center space-x-3 md:space-x-4">
         <SidebarTrigger />
-        <Link href="/" className="relative h-8 w-8 md:h-10 md:w-10">
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            fill
-            sizes="(max-width: 768px) 100vw, 8px"
-            className="object-contain"
-          />
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/images/logo.png" alt="Logo" width={36} height={36} />
         </Link>
       </div>
 
       {/* Center: Search Bar (Hidden on Mobile) */}
-      <div className="relative hidden w-full max-w-sm flex-col items-center md:flex md:max-w-md lg:max-w-lg">
+      <div className="relative w-full max-w-full flex-1 hidden sm:flex max-w-sm">
         <div className="flex w-full items-center space-x-2 rounded-lg border bg-gray-100 px-3 py-2 dark:bg-gray-800">
           <Search className="h-5 w-5 text-gray-500" />
           <Input
@@ -79,26 +70,24 @@ export default function Header() {
             className="w-full border-none bg-transparent text-gray-700 focus:ring-0 focus:outline-none dark:text-gray-300"
           />
         </div>
-
+        
         {/* Search Results Dropdown */}
         {showResults && searchResults.length > 0 && (
-          <div className="absolute top-12 z-50 max-h-60 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
+          <div className="border-border bg-background absolute top-12 z-50 max-h-60 w-full overflow-y-auto rounded-lg border ">
             {searchResults.map((item, index) => (
               <Link
                 key={index}
                 href={`/docs/${item.url}`}
-                className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="hover:bg-sidebar-accent block px-4 py-3"
               >
-                <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
+                <p className="text-foreground text-sm font-bold">
                   {item.title}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {item.description}
-                </p>
+                <p className="text-muted text-xs">{item.description}</p>
               </Link>
             ))}
           </div>
-        )}
+        )}{' '}
       </div>
 
       {/* Right: GitHub & Theme Toggle */}
