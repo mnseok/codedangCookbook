@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-primary: #0066ff;
+  --color-secondary: #6c757d;
+  --color-success: #2eca8b;
+  --color-info: #17a2b8;
+  --color-warning: #f17425;
+  --color-danger: #e43f52;
+  --color-light: #f8f9fa;
+  --color-dark: #3c4858;
+  --color-muted: #6b7686;
+  --color-footer: #202942;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #ffffff;
+  --foreground: #3C4257;
+  --border: #e9ecef;
+  --ring: rgba(13, 110, 253, 0.25);
+  --input: #e9ecef;
+  --sidebar: #f8f9fa;
+  --sidebar-foreground: #3C4257;
+  --sidebar-primary: #0066ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #F0F1F2;
+  --sidebar-accent-foreground: var(--sidebar-foreground);
+  --sidebar-border: #e9ecef;
+  --sidebar-ring: rgba(13, 110, 253, 0.25);
+}
+
+.dark {
+  --background: #212529;
+  --foreground: #dee2e6;
+  --border: #495057;
+  --ring: rgba(255, 255, 255, 0.15);
+  --input: #343a40;
+  --sidebar: #343a40;
+  --sidebar-foreground: #dee2e6;
+  --sidebar-primary: #66a3ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #495057;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #495057;
+  --sidebar-ring: rgba(255, 255, 255, 0.15);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html, body {
+    overflow: auto;
+    overscroll-behavior: none;
+    height: 100%;
+  }
+  html {
+    scrollbar-width: none; /* Firefox */
+}
+
+  body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+  }
+  h2[id], h3[id] {
+    scroll-margin-top: 100px; /* 헤더 높이만큼 여백 확보 */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@layer components {
+  .card {
+    @apply p-6 border rounded-lg shadow-sm transition bg-background text-foreground;
+  }
+
+  .card-hover {
+    @apply hover:bg-primary hover:text-white hover:border-transparent;
+  }
+
+  .dark .card-hover {
+    @apply dark:hover:bg-primary/80 dark:hover:text-white dark:hover:border-transparent;
+  }
 }
