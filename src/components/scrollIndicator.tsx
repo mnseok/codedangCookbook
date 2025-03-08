@@ -7,7 +7,6 @@ import { useSidebar } from "@/components/ui/sidebar"; // ✅ Sidebar 상태 가�
 export default function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(64); // 기본 헤더 높이
-  const [isInitialLoad, setIsInitialLoad] = useState(true); // ✅ 처음 로딩 여부
 
   const { state, open } = useSidebar(); // ✅ Sidebar 상태 가져오기
   console.log("Sidebar 상태:", state, open); // 디버깅용
@@ -39,8 +38,6 @@ export default function ScrollIndicator() {
     };
 
     scrollContainer.addEventListener("scroll", updateScrollProgress);
-
-    setTimeout(() => setIsInitialLoad(false), 100);
 
     return () => {
       scrollContainer.removeEventListener("scroll", updateScrollProgress);
