@@ -47,7 +47,10 @@ export default function Header() {
   }, [search]);
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-8 py-3 bg-background text-foreground w-full">
+    <header 
+      className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-8 py-3 bg-background text-foreground "
+      style={{ width: `calc(100vw - var(--sidebar-width, 0px))` }}
+    >
       {/* Left: Logo & Sidebar Button */}
       <div className="flex items-center space-x-3 md:space-x-4">
         <SidebarTrigger />

@@ -20,7 +20,7 @@ import Image from "next/image";
 import ScrollIndicator from "@/components/scrollIndicator";
 
 export default function DocsPage() {
-  const [isLoading, setIsLoading] = useState(true); // ✅ 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(true);
   const [fileTree, setFileTree] = useState<FileTreeNode[]>([]);
   const [current, setCurrent] = useState<FileTreeNode | null>(null);
   const [markdownContent, setMarkdownContent] = useState<string | null>("");
@@ -32,7 +32,7 @@ export default function DocsPage() {
 
   useEffect(() => {
     async function fetchCurrentInfo() {
-      setIsLoading(true); // ✅ 데이터 요청 시작 시 로딩 활성화
+      setIsLoading(true);
       try {
         const response = await fetch(`/api/docs/current?path=\"${encodeURIComponent(currentPath)}\"`);
         if (!response.ok) throw new Error("Failed to fetch current info");
@@ -78,11 +78,9 @@ export default function DocsPage() {
   
         const data = await response.json();
 
-        // find current index
         const currentIndex = data.findIndex((item: FileTreeNode) => item.url?.replace("docs/", "") === currentPath);
         if (currentIndex === -1) throw new Error("Current item not found in file tree");
 
-        // set prev/next
         setPrev(data[currentIndex - 1] || null);
         setNext(data[currentIndex + 1] || null);
       } catch (error) {
@@ -101,12 +99,12 @@ export default function DocsPage() {
       if (!response.ok) throw new Error("Markdown file not found");
   
       const text = await response.text();
-      const { content } = matter(text); // gray-matter로 메타데이터 추출
+      const { content } = matter(text);
       
       setMarkdownContent(content);
     } catch (error) {
       console.error("Error fetching markdown content:", error);
-      setMarkdownContent("## 🚨 Error: Markdown content not found.");
+      setMarkdownContent("## Error: Markdown content not found.");
     }
   };
 
@@ -156,6 +154,7 @@ export default function DocsPage() {
                             width={600}
                             height={400}
                             className="rounded-lg"
+                            priority
                           />
                         );
                       }
@@ -199,7 +198,7 @@ export default function DocsPage() {
                 </div>
               </div>
             ) : (
-              // ✅ 폴더라면 기존 카드 레이아웃 유지
+              // 폴더일 경우 하위 파일 목록 표시
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {fileTree.map((item) => {
                   const IconComponent = Icons[item.icon as keyof typeof Icons];
@@ -209,7 +208,7 @@ export default function DocsPage() {
                       href={`/${item.url}`}
                       key={item.title}
                       className="group relative p-6 border rounded shadow-sm transition-colors duration-500 ease-out 
-                                bg-white hover:bg-primary hover:text-white hover:border-transparent"
+                                bg-background hover:bg-primary hover:text-white hover:border-transparent"
                     >
                       {/* 아이콘 & 팀명 */}
                       <div className="flex items-center justify-between mb-3">

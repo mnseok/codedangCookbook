@@ -90,7 +90,7 @@ export async function GET(req: Request) {
     return nodes
       .map(node => ({
         ...node,
-        children: node.children ? sortTree(node.children) : undefined, // 🔥 재귀적으로 children 정렬
+        children: node.children ? sortTree(node.children) : undefined,
       }))
       .sort((a, b) => {
         if (a.type === "folder" && b.type === "file") return -1;

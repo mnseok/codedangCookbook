@@ -2,14 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
-import { useSidebar } from "@/components/ui/sidebar"; // ✅ Sidebar 상태 가져오기
+import { useSidebar } from "@/components/ui/sidebar";
 
 export default function ScrollIndicator() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(64); // 기본 헤더 높이
+  const [headerHeight, setHeaderHeight] = useState(64);
 
-  const { state, open } = useSidebar(); // ✅ Sidebar 상태 가져오기
-  console.log("Sidebar 상태:", state, open); // 디버깅용
+  const { open } = useSidebar();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -29,7 +28,6 @@ export default function ScrollIndicator() {
       const scrollY = scrollContainer.scrollTop;
       const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
 
-      console.log("스크롤 위치:", scrollY, "전체 스크롤 높이:", scrollHeight);
       if (scrollHeight === 0) return;
       if (scrollY > scrollHeight) return setScrollProgress(100);
 
