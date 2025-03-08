@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
@@ -39,15 +39,15 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #3C4257;
+  --foreground: #3c4257;
   --border: #e9ecef;
   --ring: rgba(13, 110, 253, 0.25);
   --input: #e9ecef;
   --sidebar: #f8f9fa;
-  --sidebar-foreground: #3C4257;
+  --sidebar-foreground: #3c4257;
   --sidebar-primary: #0066ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #F0F1F2;
+  --sidebar-accent: #f0f1f2;
   --sidebar-accent-foreground: var(--sidebar-foreground);
   --sidebar-border: #e9ecef;
   --sidebar-ring: rgba(13, 110, 253, 0.25);
@@ -76,34 +76,35 @@
   body {
     @apply bg-background text-foreground;
   }
-  html, body {
+  html,
+  body {
     overflow: auto;
     overscroll-behavior: none;
     height: 100%;
   }
   html {
     scrollbar-width: none; /* Firefox */
-}
+  }
 
   body::-webkit-scrollbar {
-      display: none; /* Chrome, Safari */
+    display: none; /* Chrome, Safari */
   }
-  h2[id], h3[id] {
+  h2[id],
+  h3[id] {
     scroll-margin-top: 100px; /* 헤더 높이만큼 여백 확보 */
   }
 }
 
-
 @layer components {
   .card {
-    @apply p-6 border rounded-lg shadow-sm transition bg-background text-foreground;
+    @apply bg-background text-foreground rounded-lg border p-6 shadow-sm transition;
   }
 
   .card-hover {
-    @apply hover:bg-primary hover:text-white hover:border-transparent;
+    @apply hover:bg-primary hover:border-transparent hover:text-white;
   }
 
   .dark .card-hover {
-    @apply dark:hover:bg-primary/80 dark:hover:text-white dark:hover:border-transparent;
+    @apply dark:hover:bg-primary/80 dark:hover:border-transparent dark:hover:text-white;
   }
 }
