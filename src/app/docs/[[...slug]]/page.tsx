@@ -115,18 +115,18 @@ export default function DocsPage() {
       <AppSidebar />
         <div className="flex flex-col">
           <Header />
-          <div className="py-0 mx-auto mt-6 min-h-screen bg-background text-foreground w-full">
-            <div className="py-0 px-24 mx-auto min-h-screen bg-background text-foreground">
+          <div className="flex flex-col min-h-screen">
+            <div className="pt-10 px-24 mx-auto min-h-screen bg-background text-foreground">
               {isLoading && (
-                <div className="flex items-center justify-center h-screen">
+                <div className="flex items-center justify-center h-screen w-full">
                   <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary"></div>
                 </div>
               )}
 
-            <DynamicBreadcrumb />
-            <h1 className="text-3xl font-bold mb-6 mt-10">
-              {`${current?.title}`}
-            </h1>
+              <DynamicBreadcrumb />
+              <h1 className="text-3xl font-bold mb-6 mt-10">
+                {`${current?.title}`}
+              </h1>
 
             {/* 파일이 `.md`이면 Markdown 렌더링 */}
             {current?.type === "file" ? (
