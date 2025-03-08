@@ -37,7 +37,7 @@ export function AppSidebar() {
   }, [pathname, fileTree]);
 
   const autoOpenFolders = (nodes: FileTreeNode[], path: string) => {
-    let newOpenFolders: Record<string, boolean> = {};
+    const newOpenFolders: Record<string, boolean> = {};
     const traverse = (items: FileTreeNode[]) => {
       for (const item of items) {
         if (path.includes(item.url)) {

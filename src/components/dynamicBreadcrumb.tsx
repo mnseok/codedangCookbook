@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, House } from "lucide-react";
+import { Home } from "lucide-react";
 
 export function DynamicBreadcrumb() {
   const pathname = usePathname();

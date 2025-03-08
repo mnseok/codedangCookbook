@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/components/header";
 import { Icons } from "@/components/icons";
-import { ArrowLeft, ArrowRight, Folder, LinkIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Folder } from "lucide-react";
 import { AppSidebar } from "@/components/appSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { FileTreeNode } from "@/app/api/docs/route";
