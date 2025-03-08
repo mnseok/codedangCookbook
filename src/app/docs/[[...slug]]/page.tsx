@@ -31,64 +31,68 @@ export default function DocsPage() {
   const currentPath = pathname.replace('/docs', '').replace(/^\//, '')
 
   useEffect(() => {
-    async function fetchCurrentInfo() {
+    async function fetchAllData() {
       setIsLoading(true)
       try {
-        const response = await fetch(
-          `/api/docs/current?path=\"${encodeURIComponent(currentPath)}\"`
+        // 현재 문서 정보 가져오기
+        const currentResponse = await fetch(
+          `/api/docs/current?path=${encodeURIComponent(currentPath)}`
         )
-        if (!response.ok) throw new Error('Failed to fetch current info')
-
-        const data = await response.json()
-
-        setCurrent(data)
-
-        if (data.type === 'file') {
-          await fetchMarkdownContent(data.path)
-          fetchPrevNext()
+        if (!currentResponse.ok) throw new Error('Failed to fetch current info')
+  
+        const currentData = await currentResponse.json()
+        setCurrent(currentData)
+  
+        // 병렬로 요청 실행
+        const promises: Promise<void>[] = []
+  
+        if (currentData.type === 'file') {
+          promises.push(fetchMarkdownContent(currentData.path))
+          promises.push(fetchPrevNext())
         } else {
-          fetchFileTree()
+          promises.push(fetchFileTree())
         }
+  
+        await Promise.all(promises) // ✅ 모든 요청이 완료될 때까지 기다림
       } catch (error) {
-        console.error('Error fetching current info:', error)
+        console.error('Error fetching data:', error)
         setCurrent(null)
       } finally {
-        setIsLoading(false)
+        setIsLoading(false) // ✅ 모든 데이터가 준비된 후 로딩 해제
       }
     }
-
+  
     async function fetchFileTree() {
       try {
         const response = await fetch(
-          `/api/docs?path=\"${encodeURIComponent(currentPath)}\"`
+          `/api/docs?path=${encodeURIComponent(currentPath)}`
         )
         if (!response.ok) throw new Error('Failed to fetch file tree')
-
+  
         const data = await response.json()
-
         setFileTree(data)
       } catch (error) {
         console.error('Error fetching file tree:', error)
         setFileTree([])
       }
     }
-
+  
     async function fetchPrevNext() {
       try {
         const url = currentPath.split('/').slice(0, -1).join('/')
         const response = await fetch(
-          `/api/docs?path=\"${encodeURIComponent(url)}\"`
+          `/api/docs?path=${encodeURIComponent(url)}`
         )
         if (!response.ok) throw new Error('Failed to fetch prev/next')
-
+  
         const data = await response.json()
-
+  
         const currentIndex = data.findIndex(
           (item: FileTreeNode) => item.url?.replace('docs/', '') === currentPath
         )
         if (currentIndex === -1)
           throw new Error('Current item not found in file tree')
-
+  
         setPrev(data[currentIndex - 1] || null)
         setNext(data[currentIndex + 1] || null)
       } catch (error) {
@@ -97,26 +101,26 @@ export default function DocsPage() {
         setNext(null)
       }
     }
-
-    fetchCurrentInfo()
-  }, [currentPath])
-
-  const fetchMarkdownContent = async (path: string) => {
-    try {
-      const response = await fetch(
-        `/api/docs/content?path=${encodeURIComponent(path)}`
-      )
-      if (!response.ok) throw new Error('Markdown file not found')
-
-      const text = await response.text()
-      const { content } = matter(text)
-
-      setMarkdownContent(content)
-    } catch (error) {
-      console.error('Error fetching markdown content:', error)
-      setMarkdownContent('## Error: Markdown content not found.')
+  
+    async function fetchMarkdownContent(path: string) {
+      try {
+        const response = await fetch(
+          `/api/docs/content?path=${encodeURIComponent(path)}`
+        )
+        if (!response.ok) throw new Error('Markdown file not found')
+  
+        const text = await response.text()
+        const { content } = matter(text)
+  
+        setMarkdownContent(content)
+      } catch (error) {
+        console.error('Error fetching markdown content:', error)
+        setMarkdownContent('## Error: Markdown content not found.')
+      }
     }
-  }
+  
+    fetchAllData()
+  }, [currentPath])
 
   return (
     <SidebarProvider>
